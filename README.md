@@ -10,7 +10,6 @@ A TTS plugin for the NVDA screen reader that outputs Morse code instead of spoke
 
 - Converts NVDA speech output into audible Morse code instead of synthesized voice.
 - Intended for Morse code listening practice using real-life screen reader messages.
-- Optionally outputs Morse code on a Braille display for multi-modal learning.
 
 ## Why?
 
@@ -26,17 +25,16 @@ Learning Morse code is difficult without authentic usage scenarios. This plugin 
 ## Usage Notes
 
 - Use NVDA as you normally would. All spoken output will be replaced with Morse code signals.
+- Press NVDA+Shift+M for a basic configuration Dialog. Adjust Speed, Frequenzy and the Farnsworth-factor according to your liking.
 
 ## Known Issues
 
-- **Special characters, punctuation, and spaces are not yet converted to their proper Morse code equivalents.** Instead, they are spelled out as words in Morse.
-- **No configuration dialogs or speech parameter controls yet.** Speed, tone, and other output parameters must currently be changed manually in the `__init__.py` file, and NVDA must be restarted afterwards.
+- **Special characters, punctuation, and spaces are not yet converted to their proper Morse code - except when in read all mode and punctuation is set to (none) - equivalents.** Instead, they are spelled out as words in Morse.
 - **Very experimental**—may break in future NVDA versions.
 
 ## Planned Features
 
 - Proper mapping of all characters, including punctuation and spaces.
-- UI for changing Morse output parameters (speed, pitch, timing) via NVDA settings.
 - Improved error handling and integration.
 - Internationalization.
 
