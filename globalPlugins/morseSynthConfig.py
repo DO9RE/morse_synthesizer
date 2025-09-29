@@ -22,7 +22,7 @@ class MorseSynthConfigDialog(wx.Dialog):
         
         # Geschwindigkeit (WPM)
         wpmSizer = wx.BoxSizer(wx.HORIZONTAL)
-        wpmLabel = wx.StaticText(self, label=_("Geschwindigkeit (WPM):"))
+        wpmLabel = wx.StaticText(self, label=_("WPM:"))
         self.wpmEdit = wx.SpinCtrl(self, min=5, max=60)
         self.wpmEdit.SetValue(wpm)
         wpmSizer.Add(wpmLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
@@ -31,7 +31,7 @@ class MorseSynthConfigDialog(wx.Dialog):
         
         # Tonhöhe (Hz)
         freqSizer = wx.BoxSizer(wx.HORIZONTAL)
-        freqLabel = wx.StaticText(self, label=_("Tonhöhe (Hz):"))
+        freqLabel = wx.StaticText(self, label=_("Freq (Hz):"))
         self.freqEdit = wx.SpinCtrl(self, min=200, max=2000)
         self.freqEdit.SetValue(freq)
         freqSizer.Add(freqLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
@@ -40,7 +40,7 @@ class MorseSynthConfigDialog(wx.Dialog):
         
         # Farnsworth-Faktor
         farnSizer = wx.BoxSizer(wx.HORIZONTAL)
-        farnLabel = wx.StaticText(self, label=_("Farnsworth-Faktor:"))
+        farnLabel = wx.StaticText(self, label=_("Farnsworth:"))
         self.farnsworthEdit = wx.TextCtrl(self, value=str(farnsworth))
         farnSizer.Add(farnLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
         farnSizer.Add(self.farnsworthEdit, 0, wx.ALL, 5)
