@@ -5,6 +5,7 @@ import gui
 import globalPluginHandler
 from scriptHandler import script
 from logHandler import log
+from gettext import gettext as _
 
 addonHandler.initTranslation()
 
@@ -64,9 +65,12 @@ class MorseSynthConfigDialog(wx.Dialog):
             log.error(f"Fehler beim Speichern der MorseSynth-Einstellungen: {e}")
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
-    __gestures = {
-        "kb:NVDA+shift+m": "openMorseSynthConfig"
-    }
+
+    @script(
+        description=_("Öffnet die Einstellungen für den Morsecode-Synthesizer."),
+        gestures=["kb:NVDA+shift+m"],
+        category="Morse Synthesizer" 
+    )
 
     def script_openMorseSynthConfig(self, gesture):
         def show():
@@ -76,4 +80,3 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             dlg.Destroy()
         wx.CallAfter(show)
 
-    script_openMorseSynthConfig.__doc__ = _("Öffnet die Einstellungen für den Morsecode-Synthesizer.")

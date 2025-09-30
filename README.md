@@ -9,6 +9,7 @@ A TTS plugin for the NVDA screen reader that outputs Morse code instead of spoke
 ## Features
 
 - Converts NVDA speech output into audible Morse code instead of synthesized voice.
+- Configuration Dialog for speed in wpm, tone frequency and Farnsworth-factor.
 - Intended for Morse code listening practice using real-life screen reader messages.
 
 ## Why?
@@ -25,7 +26,7 @@ Learning Morse code is difficult without authentic usage scenarios. This plugin 
 ## Usage Notes
 
 - Use NVDA as you normally would. All spoken output will be replaced with Morse code signals.
-- Press NVDA+Shift+M for a basic configuration Dialog. Adjust Speed, Frequenzy and the Farnsworth-factor according to your liking.
+- Press NVDA+Shift+M for a basic configuration Dialog. Adjust Speed, Frequency and the Farnsworth-factor according to your liking.
 
 ## Known Issues
 
