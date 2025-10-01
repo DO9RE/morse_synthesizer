@@ -26,7 +26,7 @@ Learning Morse code is difficult without authentic usage scenarios. This plugin 
 ## Usage Notes
 
 - Use NVDA as you normally would. All spoken output will be replaced with Morse code signals.
-- Press NVDA+Shift+M for a basic configuration Dialog. Adjust Speed, Frequency and the Farnsworth-factor according to your liking.
+- Press NVDA+Shift+M on a desktop layout, or NVDA+Windows+M on a laptop, for a basic configuration Dialog. Adjust Speed, Frequency and the Farnsworth-factor according to your liking.
 
 ## Known Issues
 
