@@ -68,7 +68,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
     @script(
         description=_("Öffnet die Einstellungen für den Morsecode-Synthesizer."),
-        gestures=["kb:NVDA+shift+m"],
+        gestures=["kb(desktop):NVDA+shift+m","kb(laptop):NVDA+windows+m"],
         category="Morse Synthesizer" 
     )
 
