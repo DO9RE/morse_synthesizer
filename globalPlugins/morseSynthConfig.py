@@ -14,8 +14,9 @@ class MorseSynthConfigDialog(wx.Dialog):
         super().__init__(parent, title=_("Morsecode-Synthesizer"), style=wx.DEFAULT_DIALOG_STYLE)
         sizer = wx.BoxSizer(wx.VERTICAL)
         
+        # Abschnitt anlegen, falls nicht vorhanden
         if "morseSynth" not in config.conf:
-            config.conf.createSection("morseSynth")
+            config.conf["morseSynth"] = {}
         self._settings = config.conf["morseSynth"]
         wpm = int(self._settings.get('wpm', 15))
         freq = int(self._settings.get('freq', 440))
@@ -61,6 +62,7 @@ class MorseSynthConfigDialog(wx.Dialog):
             if farn < 0.5 or farn > 3.0:
                 farn = 1.0
             self._settings['farnsworth'] = farn
+            config.conf.save()  # Einstellungen dauerhaft speichern
         except Exception as e:
             log.error(f"Fehler beim Speichern der MorseSynth-Einstellungen: {e}")
 
@@ -79,4 +81,3 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 dlg.Save()
             dlg.Destroy()
         wx.CallAfter(show)
-
