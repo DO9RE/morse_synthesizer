@@ -4,10 +4,13 @@ import threading
 import time
 import config
 
-# EINSTELLUNGEN
-DEFAULT_WPM = 15
-DEFAULT_FREQ = 440
-DEFAULT_FARNSWORTH = 1.0
+# Register config spec so defaults are guaranteed even when loaded before the global plugin
+confspec = {
+    "wpm": "integer(default=15, min=5, max=60)",
+    "freq": "integer(default=440, min=200, max=2000)",
+    "farnsworth": "float(default=1.0, min=0.5, max=3.0)",
+}
+config.conf.spec["morseSynth"] = confspec
 
 def morse_unit(wpm):
     return 1.2 / wpm
@@ -51,28 +54,13 @@ class SynthDriver(synthDriverHandler.SynthDriver):
     def check(cls):
         return True
 
-    def _get_setting(self, key, default):
-        """Hilfsfunktion: Hole Wert aus config, ggf. Default."""
-        section = config.conf.get("morseSynth")
-        if section is not None:
-            try:
-                val = section.get(key, default)
-                if key == "farnsworth":
-                    return float(val)
-                else:
-                    return int(val)
-            except Exception:
-                return default
-        return default
-
     def speak(self, speechSequence):
         self.cancel()
         self._cancel.clear()
 
-        # Hol dir aktuelle Werte VOR jedem Sprechen
-        wpm = self._get_setting("wpm", DEFAULT_WPM)
-        freq = self._get_setting("freq", DEFAULT_FREQ)
-        farnsworth = self._get_setting("farnsworth", DEFAULT_FARNSWORTH)
+        wpm = config.conf["morseSynth"]["wpm"]
+        freq = config.conf["morseSynth"]["freq"]
+        farnsworth = config.conf["morseSynth"]["farnsworth"]
 
         def run():
             for item in speechSequence:

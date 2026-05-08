@@ -1,11 +1,11 @@
 import wx
 import gui
+import gui.guiHelper
 import addonHandler
 import globalPluginHandler
+import ui
 from scriptHandler import script
 from logHandler import log
-from gettext import gettext as _
-import wx.adv
 
 addonHandler.initTranslation()
 
@@ -49,42 +49,47 @@ def text_to_morse(text):
 class MorseSpeechDisplayDialog(wx.Dialog):
     def __init__(self, morseText, originalText, parent=None):
         super().__init__(
-            parent, title=_("Clipboard Morsecode"),
-            style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER
+            parent,
+            title=_("Clipboard Morsecode"),
+            style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
         )
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        staticLabel1 = wx.StaticText(self, label=_("Clipboard Text:"))
-        sizer.Add(staticLabel1, 0, wx.ALL | wx.EXPAND, 8)
-        self.origTextCtrl = wx.TextCtrl(
-            self, value=originalText, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL
+        mainSizer = wx.BoxSizer(wx.VERTICAL)
+        sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=mainSizer)
+        self.origTextCtrl = sHelper.addLabeledControl(
+            _("Clipboard Text:"),
+            wx.TextCtrl,
+            value=originalText,
+            style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL,
         )
-        self.origTextCtrl.SetMinSize((500, 80))
-        sizer.Add(self.origTextCtrl, 0, wx.ALL | wx.EXPAND, 8)
-        staticLabel = wx.StaticText(self, label=_("Morsecode:"))
-        sizer.Add(staticLabel, 0, wx.ALL | wx.EXPAND, 8)
-        self.textCtrl = wx.TextCtrl(
-            self, value=morseText, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL
+        self.origTextCtrl.SetMinSize((-1, 80))
+        self.textCtrl = sHelper.addLabeledControl(
+            _("Morsecode:"),
+            wx.TextCtrl,
+            value=morseText,
+            style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL,
         )
-        self.textCtrl.SetMinSize((500, 120))
-        sizer.Add(self.textCtrl, 1, wx.ALL | wx.EXPAND, 8)
-        btnSizer = wx.BoxSizer(wx.HORIZONTAL)
-        copyBtn = wx.Button(self, wx.ID_ANY, _("Morsecode in Zwischenablage kopieren"))
+        self.textCtrl.SetMinSize((-1, 120))
+        bHelper = gui.guiHelper.ButtonHelper(wx.HORIZONTAL)
+        copyBtn = bHelper.addButton(self, label=_("Morsecode in Zwischenablage kopieren"))
         copyBtn.Bind(wx.EVT_BUTTON, self.onCopy)
-        btnSizer.Add(copyBtn, 0, wx.ALL, 5)
-        closeBtn = wx.Button(self, wx.ID_OK, _("Schließen"))
-        btnSizer.AddStretchSpacer()
-        btnSizer.Add(closeBtn, 0, wx.ALL, 5)
-        sizer.Add(btnSizer, 0, wx.EXPAND | wx.ALL, 5)
-        self.SetSizerAndFit(sizer)
+        bHelper.addButton(self, id=wx.ID_OK, label=_("Schließen"))
+        sHelper.addItem(bHelper.sizer, flag=wx.ALIGN_RIGHT)
+        self.SetMinSize((500, -1))
+        self.SetSizerAndFit(mainSizer)
         self.CentreOnScreen()
 
     def onCopy(self, evt):
         if wx.TheClipboard.Open():
             wx.TheClipboard.SetData(wx.TextDataObject(self.textCtrl.GetValue()))
             wx.TheClipboard.Close()
-            wx.adv.NotificationMessage(_("Morsecode kopiert"), _("Der Morsecode wurde in die Zwischenablage kopiert.")).Show(timeout=wx.adv.NotificationMessage.Timeout_Auto)
+            ui.message(_("Der Morsecode wurde in die Zwischenablage kopiert."))
         else:
-            wx.MessageBox(_("Konnte die Zwischenablage nicht öffnen."), _("Fehler"), wx.ICON_ERROR)
+            gui.messageBox(
+                _("Konnte die Zwischenablage nicht öffnen."),
+                _("Fehler"),
+                wx.OK | wx.ICON_ERROR,
+                self,
+            )
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     @script(
