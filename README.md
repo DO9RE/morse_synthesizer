@@ -63,7 +63,7 @@ Learning Morse code is difficult without authentic usage scenarios. This plugin 
 - Proper mapping of all characters, including punctuation and spaces.
 - Improved error handling and integration.
 - Internationalization.
-- Integration of synthesizer settings into the NVDA Voice Settings Ring (Rotor).
+- Integration of synthesizer settings into the NVDA Voice Settings Ring: done (rate, pitch, volume).
 
 ## Contributing
 

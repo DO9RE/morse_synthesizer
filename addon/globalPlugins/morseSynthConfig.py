@@ -15,12 +15,13 @@ confspec = {
     "wpm": "integer(default=15, min=5, max=60)",
     "freq": "integer(default=440, min=200, max=2000)",
     "farnsworth": "float(default=1.0, min=0.5, max=3.0)",
+    "volume": "integer(default=100, min=0, max=100)",
 }
 config.conf.spec["morseSynth"] = confspec
 
 
 class MorseSynthSettingsPanel(gui.settingsDialogs.SettingsPanel):
-    title = _("Morsecode Synthesizer")
+    title = _("Morse code synthesizer")
 
     def makeSettings(self, settingsSizer):
         sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
@@ -34,6 +35,11 @@ class MorseSynthSettingsPanel(gui.settingsDialogs.SettingsPanel):
             gui.nvdaControls.SelectOnFocusSpinCtrl,
             min=200, max=2000, initial=config.conf["morseSynth"]["freq"],
         )
+        self.volumeEdit = sHelper.addLabeledControl(
+            _("Volume (%):"),
+            gui.nvdaControls.SelectOnFocusSpinCtrl,
+            min=0, max=100, initial=config.conf["morseSynth"]["volume"],
+        )
         self.farnsworthEdit = sHelper.addLabeledControl(
             _("Farnsworth:"),
             wx.TextCtrl,
@@ -43,6 +49,7 @@ class MorseSynthSettingsPanel(gui.settingsDialogs.SettingsPanel):
     def onSave(self):
         config.conf["morseSynth"]["wpm"] = self.wpmEdit.GetValue()
         config.conf["morseSynth"]["freq"] = self.freqEdit.GetValue()
+        config.conf["morseSynth"]["volume"] = self.volumeEdit.GetValue()
         try:
             farn = float(self.farnsworthEdit.GetValue())
             if not (0.5 <= farn <= 3.0):
@@ -62,7 +69,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(MorseSynthSettingsPanel)
 
     @script(
-        description=_("Öffnet die Einstellungen für den Morsecode-Synthesizer."),
+        description=_("Opens the settings for the Morse code synthesizer."),
         gestures=["kb(desktop):NVDA+shift+m", "kb(laptop):NVDA+windows+m"],
         category="Morse Synthesizer",
     )

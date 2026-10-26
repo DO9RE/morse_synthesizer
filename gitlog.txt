@@ -1,0 +1,86 @@
+commit 6930b30136b3d16f12d78dc9098e6a3898e070e3
+Author: Christopher Duffley <christophernduffley@gmail.com>
+Date:   Fri May 8 15:54:21 2026 -0400
+
+    refactor: align GUI and config with NVDA core patterns
+    
+    - Replace standalone wx.Dialog settings window with gui.settingsDialogs.SettingsPanel
+      registered in NVDASettingsDialog; GlobalPlugin.__init__/terminate manage
+      category registration and cleanup
+    - Add config.conf.spec confspec in both morseSynthConfig and the synth driver
+      so ConfigObj owns defaults, validation and profile support; remove manual
+      dict.get() fallbacks and the now-redundant _get_setting() helper
+    - Rewrite MorseSpeechDisplayDialog layout using gui.guiHelper.BoxSizerHelper
+      and ButtonHelper; fix sizer never attached to window (missing SetSizerAndFit),
+      fix double-bind on close button (wx.ID_OK already calls EndModal),
+      move SetMinSize to the window not the sizer
+    - Replace wx.adv.NotificationMessage with ui.message() so NVDA speaks feedback
+    - Replace wx.MessageBox with gui.messageBox() so focus restores correctly
+    - Remove 'from gettext import gettext as _'; addonHandler.initTranslation()
+      already installs _ as a builtin
+
+commit a81c5fd0d1d4dd190eb8925d63d2f51fa63e8adf
+Author: Richard <do9re@hotmail.com>
+Date:   Fri May 8 01:03:32 2026 +0200
+
+    Modified manifest.ini to support NVDA 2026.1
+
+commit 8080346fbf32a304ad2752acc0accfc68a1bf24a
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Oct 6 00:37:20 2025 +0200
+
+    Added a dialog which displays the clipboard text as Morse code.
+
+commit 5282c2daef5ae6c4d0f7c1ea6d8629b758ced4de
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Sun Oct 5 15:20:27 2025 +0200
+
+    Fixed an error where uppon a fresh installation, the settings had not been inserted properly into the nvda.ini file.
+
+commit 180f491ba63343176ac409ac0aa0c523d1ffdec1
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Wed Oct 1 19:22:46 2025 +0200
+
+    Added Shortcut for laptop layout in the READ.me.
+
+commit 253672e63f87d5d31c42ee1e2d25554a5bb7336a
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Wed Oct 1 19:17:26 2025 +0200
+
+    Added separate keys to open the config dialog due to a keyboard conflict on the laptop layout. Laptop users now may use nvda+windows+m. Desktop layout users may use the known shortcut, nvda+shift+m.
+
+commit 35c570de1cca212b045b94593e2765bacae9a95c
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Tue Sep 30 02:32:10 2025 +0200
+
+    Updated to modern script decorator method. Key bindings are now proper sorted into NVDAs keyboard shortcut dialog.
+
+commit 9172703b9fb9ba8c7b57fcabb2ef0a6378921f33
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Sep 29 21:21:40 2025 +0200
+
+    Some relabeling in the config dialog for internationalisazion
+
+commit cc83bf14c79bcd7d4c656b4e6d5c3b70653631dc
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Sep 29 20:39:10 2025 +0200
+
+    Added configuration Dialog with NVDA+Shift+M. Settings are written into the NVDA configuration INI file. Changes take effect after closing the dialog.
+
+commit b0436aca5f209b90421514968a1d844534b28dd3
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Sep 29 02:17:25 2025 +0200
+
+    Add proper basic README file.
+
+commit a3cc19ccbf6eedd8eaeacdb1e35cdb9833a41e2a
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Sep 29 01:23:35 2025 +0200
+
+    Lets go!
+
+commit 3addae7a9ebffea4780426bfd3a06aee4f65d1d9
+Author: Richard Emling <do9re@hotmail.com>
+Date:   Mon Sep 29 00:54:54 2025 +0200
+
+    Initial commit
