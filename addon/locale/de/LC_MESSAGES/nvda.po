@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: morse_synthesizer 0.7\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Morse code synthesizer"
+msgstr "Morsecode-Synthesizer"
+
+msgid "Morse code synthesizer using NVDA's tones API"
+msgstr "Morsecode-Synthesizer auf Basis der NVDA-Tones-API"
+
+msgid "Updated for NVDA 2026.2. Added volume, pitch and rate to the synthesizer settings ring."
+msgstr "Aktualisiert für NVDA 2026.2. Lautstärke, Tonhöhe und Geschwindigkeit im Einstellungsring ergänzt."
+
+msgid "WPM:"
+msgstr "WPM:"
+
+msgid "Freq (Hz):"
+msgstr "Frequenz (Hz):"
+
+msgid "Volume (%):"
+msgstr "Lautstärke (%):"
+
+msgid "Farnsworth:"
+msgstr "Farnsworth:"
+
+msgid "Opens the settings for the Morse code synthesizer."
+msgstr "Öffnet die Einstellungen für den Morsecode-Synthesizer."
+
+msgid "Clipboard Morse code"
+msgstr "Zwischenablage als Morsecode"
+
+msgid "Clipboard Text:"
+msgstr "Text der Zwischenablage:"
+
+msgid "Morse code:"
+msgstr "Morsecode:"
+
+msgid "Copy Morse code to clipboard"
+msgstr "Morsecode in Zwischenablage kopieren"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "The Morse code was copied to the clipboard."
+msgstr "Der Morsecode wurde in die Zwischenablage kopiert."
+
+msgid "Could not open the clipboard."
+msgstr "Konnte die Zwischenablage nicht öffnen."
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Shows the current clipboard text as Morse code."
+msgstr "Zeigt den aktuellen Text der Zwischenablage als Morsecode an."
+
+msgid "No text found in the clipboard. Please copy some text to the clipboard first."
+msgstr "Kein Text in der Zwischenablage gefunden. Bitte kopiere erst Text in die Zwischenablage."

@@ -50,7 +50,7 @@ class MorseSpeechDisplayDialog(wx.Dialog):
     def __init__(self, morseText, originalText, parent=None):
         super().__init__(
             parent,
-            title=_("Clipboard Morsecode"),
+            title=_("Clipboard Morse code"),
             style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
         )
         mainSizer = wx.BoxSizer(wx.VERTICAL)
@@ -63,16 +63,16 @@ class MorseSpeechDisplayDialog(wx.Dialog):
         )
         self.origTextCtrl.SetMinSize((-1, 80))
         self.textCtrl = sHelper.addLabeledControl(
-            _("Morsecode:"),
+            _("Morse code:"),
             wx.TextCtrl,
             value=morseText,
             style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL,
         )
         self.textCtrl.SetMinSize((-1, 120))
         bHelper = gui.guiHelper.ButtonHelper(wx.HORIZONTAL)
-        copyBtn = bHelper.addButton(self, label=_("Morsecode in Zwischenablage kopieren"))
+        copyBtn = bHelper.addButton(self, label=_("Copy Morse code to clipboard"))
         copyBtn.Bind(wx.EVT_BUTTON, self.onCopy)
-        bHelper.addButton(self, id=wx.ID_OK, label=_("Schließen"))
+        bHelper.addButton(self, id=wx.ID_OK, label=_("Close"))
         sHelper.addItem(bHelper.sizer, flag=wx.ALIGN_RIGHT)
         self.SetMinSize((500, -1))
         self.SetSizerAndFit(mainSizer)
@@ -82,18 +82,18 @@ class MorseSpeechDisplayDialog(wx.Dialog):
         if wx.TheClipboard.Open():
             wx.TheClipboard.SetData(wx.TextDataObject(self.textCtrl.GetValue()))
             wx.TheClipboard.Close()
-            ui.message(_("Der Morsecode wurde in die Zwischenablage kopiert."))
+            ui.message(_("The Morse code was copied to the clipboard."))
         else:
             gui.messageBox(
-                _("Konnte die Zwischenablage nicht öffnen."),
-                _("Fehler"),
+                _("Could not open the clipboard."),
+                _("Error"),
                 wx.OK | wx.ICON_ERROR,
                 self,
             )
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     @script(
-        description=_("Zeigt den aktuellen Text der Zwischenablage als Morsecode an."),
+        description=_("Shows the current clipboard text as Morse code."),
         gestures=["kb(desktop):NVDA+shift+n", "kb(laptop):NVDA+windows+n"],
         category="Morse Synthesizer"
     )
@@ -108,7 +108,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 wx.TheClipboard.Close()
             clipboard_text = clipboard_text.strip()
             if not clipboard_text:
-                clipboard_text = _("Kein Text in der Zwischenablage gefunden. Bitte kopiere erst Text in die Zwischenablage.")
+                clipboard_text = _("No text found in the clipboard. Please copy some text to the clipboard first.")
                 morse_text = ""
             else:
                 morse_text = text_to_morse(clipboard_text)

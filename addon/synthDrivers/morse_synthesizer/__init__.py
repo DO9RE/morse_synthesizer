@@ -1,14 +1,20 @@
 import synthDriverHandler
+from synthDriverHandler import synthDoneSpeaking
+import addonHandler
 import tones
 import threading
 import time
 import config
+from speech.commands import IndexCommand
+
+addonHandler.initTranslation()
 
 # Register config spec so defaults are guaranteed even when loaded before the global plugin
 confspec = {
     "wpm": "integer(default=15, min=5, max=60)",
     "freq": "integer(default=440, min=200, max=2000)",
     "farnsworth": "float(default=1.0, min=0.5, max=3.0)",
+    "volume": "integer(default=100, min=0, max=100)",
 }
 config.conf.spec["morseSynth"] = confspec
 
@@ -45,14 +51,39 @@ MORSE_CODE = {
 
 class SynthDriver(synthDriverHandler.SynthDriver):
     name = "morse_synthesizer"
-    description = "Morsecode-Synthesizer"
-    supportedSettings = ()
+    description = _("Morse code synthesizer")
+    supportedSettings = (
+        synthDriverHandler.SynthDriver.RateSetting(),
+        synthDriverHandler.SynthDriver.PitchSetting(),
+        synthDriverHandler.SynthDriver.VolumeSetting(),
+    )
+    supportedCommands = frozenset({IndexCommand})
+    supportedNotifications = {synthDriverHandler.synthIndexReached, synthDoneSpeaking}
     _cancel = threading.Event()
     _playThread = None
 
     @classmethod
     def check(cls):
         return True
+
+    # Ring values (0-100) are mapped onto the add-on configuration
+    def _get_rate(self):
+        return round((config.conf["morseSynth"]["wpm"] - 5) * 100 / 55)
+
+    def _set_rate(self, value):
+        config.conf["morseSynth"]["wpm"] = 5 + round(value * 55 / 100)
+
+    def _get_pitch(self):
+        return round((config.conf["morseSynth"]["freq"] - 200) * 100 / 1800)
+
+    def _set_pitch(self, value):
+        config.conf["morseSynth"]["freq"] = 200 + round(value * 1800 / 100)
+
+    def _get_volume(self):
+        return config.conf["morseSynth"]["volume"]
+
+    def _set_volume(self, value):
+        config.conf["morseSynth"]["volume"] = value
 
     def speak(self, speechSequence):
         self.cancel()
@@ -61,6 +92,7 @@ class SynthDriver(synthDriverHandler.SynthDriver):
         wpm = config.conf["morseSynth"]["wpm"]
         freq = config.conf["morseSynth"]["freq"]
         farnsworth = config.conf["morseSynth"]["farnsworth"]
+        self._volume = config.conf["morseSynth"]["volume"]
 
         def run():
             for item in speechSequence:
@@ -68,6 +100,10 @@ class SynthDriver(synthDriverHandler.SynthDriver):
                     break
                 if isinstance(item, str):
                     self._playMorse(item, wpm, freq, farnsworth)
+                elif isinstance(item, IndexCommand):
+                    synthDriverHandler.synthIndexReached.notify(synth=self, index=item.index)
+            if not self._cancel.is_set():
+                synthDoneSpeaking.notify(synth=self)
         self._playThread = threading.Thread(target=run, daemon=True)
         self._playThread.start()
 
@@ -113,10 +149,10 @@ class SynthDriver(synthDriverHandler.SynthDriver):
                 if self._cancel.is_set():
                     break
                 if symbol == '.':
-                    tones.beep(freq, int(dit * 1000))
+                    tones.beep(freq, int(dit * 1000), left=self._volume, right=self._volume)
                     timeline = self._wait_until(timeline, dit)
                 elif symbol == '-':
-                    tones.beep(freq, int(dah * 1000))
+                    tones.beep(freq, int(dah * 1000), left=self._volume, right=self._volume)
                     timeline = self._wait_until(timeline, dah)
                 if j < len(code) - 1:
                     timeline = self._wait_until(timeline, intra_element_gap)
