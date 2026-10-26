@@ -19,10 +19,14 @@ Learning Morse code is difficult without authentic usage scenarios. This plugin 
 
 ## How to Install
 
-1. Clone or copy the content of this repository into the `morse_synthesizer` folder inside your NVDA Addons directory:  
-   `C:\Users\[YourUsername]\AppData\Roaming\nvda\addons\morse_synthesizer`
-2. Restart NVDA.
-3. "Morse Synthesizer" will show up as a regular TTS (text-to-speech engine) within NVDA. Select it like any other synthesizer.
+1. Download the latest `morse_synthesizer-<version>.nvda-addon` from the [Releases page](https://github.com/do9re/morse_synthesizer/releases) and open it with NVDA.
+2. Restart NVDA when asked.
+3. "Morse code synthesizer" will show up as a regular TTS (text-to-speech engine) within NVDA. Select it like any other synthesizer.
+
+## Building and Releasing
+
+- Build locally: `pip install scons markdown`, install gettext, then run `scons` in the repository root.
+- Release: push a tag such as `v0.7.0`. The GitHub Actions workflow builds the add-on and publishes it as a release (the tag must be `major.minor.patch`, optionally prefixed with `v`).
 
 ## Keyboard Shortcuts
 
